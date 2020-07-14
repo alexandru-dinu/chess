@@ -13,6 +13,16 @@ def stem_hist(xs, show=False):
         plt.show()
         
         
-def get_games(pgn_file, n):
+def get_games(pgn_file, n=np.inf):
+    games = []
+    
     with open(pgn_file) as pgn:
-        return [chess.pgn.read_game(pgn) for _ in range(n)]
+        while len(games) < n:
+            g = chess.pgn.read_game(pgn)
+        
+            if g is None:
+                return games
+        
+            games += [g]
+    
+    return games
